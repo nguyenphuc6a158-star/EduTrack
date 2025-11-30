@@ -1,13 +1,10 @@
 import './App.css'
-import SiderNavbar from './core/components/menu'
+import Router from './core/routers'
 
 function App() {
-
-return (
-	<>
-		<SiderNavbar />
-	</>
-)
+	return (
+		<Router/>
+	)
 }
 
 export default App
