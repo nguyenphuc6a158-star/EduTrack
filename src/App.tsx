@@ -1,10 +1,16 @@
-import './App.css'
-import Router from './core/routers'
+import React from 'react';
+import Router from './core/routing';
 
-function App() {
-	return (
-		<Router/>
-	)
+export default class App extends React.Component{
+	state = {
+		collapsed: false,
+	}
+	toggleCollapsed = () => {
+		this.setState({ collapsed: !this.state.collapsed });
+	};
+	render(){
+		return (
+			<Router />
+		);
+	}
 }
-
-export default App
