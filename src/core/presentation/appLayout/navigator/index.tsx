@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu } from 'antd';
+import { Image, Menu } from 'antd';
 import itemsMenu from './menuItem';
 import Sider from 'antd/es/layout/Sider';
 interface ISideNavBarProps{
@@ -14,14 +14,29 @@ export default class SideNavbar extends React.Component<ISideNavBarProps>{
 				collapsed={this.props.collapsed}
 				collapsedWidth={80}
 				width={window.innerWidth * 0.3}
-				>
-				<div className="demo-logo-vertical" />
-					<Menu
-						theme="dark"
-						mode="inline"
-						defaultSelectedKeys={['1']}
-						items={itemsMenu}
+			>
+				<div style={{
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'center',
+					height: 200,
+					marginBottom: 20
+				}}>		
+					<Image 
+						width={200}
+						height={200} 
+						src="../public/logoEdutrack.png" 
+						alt="Logo"
+						preview={false}
+						style={{ cursor: 'default' }} 
 					/>
+				</div>
+				<Menu
+					theme="dark"
+					mode="inline"
+					defaultSelectedKeys={['1']}
+					items={itemsMenu}
+				/>
 			</Sider>
 		);
 	}

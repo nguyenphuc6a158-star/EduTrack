@@ -1,4 +1,4 @@
-import { Layout } from "antd";
+import { Col, Layout } from "antd";
 import React from "react";
 import { Content } from "antd/es/layout/layout";
 import { Outlet } from "react-router-dom";
@@ -13,7 +13,7 @@ export default class AppLayout extends React.Component{
 	}
 	render(){
 		return(
-			<Layout style={{ minHeight: '100vh' }}>
+			<Layout style={{minHeight: '100vh' }}>
 				<SideNavbar
 					collapsed={this.state.collapsed} 
 				/>
@@ -22,17 +22,11 @@ export default class AppLayout extends React.Component{
 						collapsed={this.state.collapsed} 
 						toggleCollapsed={this.toggleCollapsed}
 					/>
-					<Content
-						style={{
-							margin: '24px 16px',
-							padding: 24,
-							minHeight: 280,
-						}}
-					>
-						<Outlet />
+					<Content>
+						<Col><Outlet /></Col>
 					</Content>
 				</Layout>
-			</Layout>
+			</Layout>			
 		)
 	}
 }

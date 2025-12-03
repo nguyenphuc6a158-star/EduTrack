@@ -9,7 +9,7 @@ interface IHeaderAppProps{
 export default class HeaderApp extends React.Component<IHeaderAppProps>{
 	render(){
 		return(
-			<Header style={{ padding: 0}}>
+			<Header style={{backgroundColor: '#fbf2f2ff ', borderBottom: '1px solid #eee', padding: 0}}>
 				<Button
 					type="text"
 					icon={this.props.collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}

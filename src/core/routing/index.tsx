@@ -1,8 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
-import HomePage from "../../features/homePage/components"
-import AboutPage from "../../features/aboutPage/components"
-import ContactPage from "../../features/contactPage/components"
 import AppLayout from "../presentation/appLayout"
+import HomePage from "../../features/home/components"
+import Users from "../../features/user/components"
+import Exercises from "../../features/exercises/components"
 
 const Router = () => {
 	return(
@@ -10,8 +10,8 @@ const Router = () => {
 			<Routes>
 				<Route path="/" element={<AppLayout />}>
 					<Route index element={<HomePage />} />
-					<Route path="about" element={<AboutPage />} />
-					<Route path="contact" element={<ContactPage />} />
+					<Route path="users" element={<Users />} />
+					<Route path="exercises" element={<Exercises />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>

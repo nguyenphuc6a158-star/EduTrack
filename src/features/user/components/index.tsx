@@ -1,10 +1,10 @@
 import React from "react";
 
-export default class HomePage extends React.Component{
+export default class Users extends React.Component{
 	render(){
 		return(
 			<>
-				HomePage
+				users
 			</>
 		)
 	}

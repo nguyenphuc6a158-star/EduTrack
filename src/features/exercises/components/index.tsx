@@ -1,6 +1,6 @@
 import React from "react";
 
-export default class ContactPage extends React.Component{
+export default class Exercises extends React.Component{
 	render(){
 		return(
 			<>
