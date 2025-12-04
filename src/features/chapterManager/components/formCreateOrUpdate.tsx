@@ -1,5 +1,6 @@
-import { Button, Form, Input, Row, Select } from "antd";
+import { Button, Card, Form, Input, Row, Select } from "antd";
 import React from "react";
+import type { Chapter } from "../domain/entities/chapter";
 interface IFormCreateOrUpdateChapterProps{
 	onCancel(): void;
 	onSave(data: any): void;
@@ -8,12 +9,16 @@ export default class FormCreateOrUpdateChapter extends React.Component<IFormCrea
 	formRef = React.createRef<any>();
 	onSave  = async () => {
 		const values = await this.formRef.current.validateFields();
-		console.log(values);
-		this.props.onSave(values);
+		let chapter: Chapter = {
+			id: '',
+			name: values.name,
+			category: values.category === 1 ? 'Hình học' : 'Đại số',
+		}
+		this.props.onSave(chapter);
 	}
 	render(){
 		return (
-			<>
+			<Card>
 				<Row style={{ width: "100%"}}>
 					<Form ref={this.formRef} style={{ width: "100%" }} name="chapterManager">
 						<Form.Item label="Tên chương" name="name" rules={[{ required: true, message: "Vui lòng nhập tên chương"}]}>
@@ -24,8 +29,8 @@ export default class FormCreateOrUpdateChapter extends React.Component<IFormCrea
 								style={{ width: "100%" }}
 								placeholder="Chọn loại"
 								options={[
-									{ value: 'hinhHoc', label: 'Hình học' },
-									{ value: 'daiSo', label: 'Đại số' },
+									{ value: 1, label: 'Hình học' },
+									{ value: 2, label: 'Đại số' },
 								]}
 							/>
 						</Form.Item>
@@ -36,7 +41,7 @@ export default class FormCreateOrUpdateChapter extends React.Component<IFormCrea
 					&nbsp;&nbsp;
 					<Button type="primary" onClick={this.onSave}>Lưu</Button>
 				</Row>
-			</>
+			</Card>
 			
 		)
 	}

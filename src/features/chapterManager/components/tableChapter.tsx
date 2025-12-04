@@ -2,8 +2,10 @@ import { Button, Table } from "antd";
 import React from "react";
 import type { Chapter } from "../domain/entities/chapter";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
-
-export default class TableChapter extends React.Component{
+interface TableChapterProps{
+	dataSource: Chapter[];
+}
+export default class TableChapter extends React.Component<TableChapterProps>{
 	deleteChapter = () => {
 
 	}
@@ -11,6 +13,7 @@ export default class TableChapter extends React.Component{
 
 	}
 	render(){
+		let dataSource = this.props.dataSource;
 		const columns = [
 			{
 				title:'Tên chương',
@@ -22,11 +25,12 @@ export default class TableChapter extends React.Component{
 			},
 			{
 				title:'Thao tác',
+				width: 150,
 				render: () =>{
 					return(
 						<div style={{display: 'flex', gap: '8px'}}>
-							<Button type="dashed" icon={<DeleteOutlined />} onClick={this.deleteChapter}>Xóa</Button>
-							<Button type="primary" icon={<EditOutlined />} onClick={this.editChapter}>Sửa</Button>
+							<Button danger type="primary" icon={<DeleteOutlined />} onClick={this.deleteChapter}>Xóa</Button>
+							<Button  type="primary" icon={<EditOutlined />} onClick={this.editChapter}>Sửa</Button>
 						</div>
 					) 
 				}
@@ -36,7 +40,7 @@ export default class TableChapter extends React.Component{
 			<Table 
 				bordered={true}
 				columns={columns}
-				dataSource={[]}
+				dataSource={dataSource}
 				rowKey="id"
 			/>
 		)

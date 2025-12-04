@@ -31,7 +31,7 @@ export default class FirebaseRemoteData {
 		}
 	}
 	// Lấy danh sách
-	async getAlls() {
+	async getAlls(): Promise<any[]> {
 		try {
 			const querySnapshot = await getDocs(collection(db, this.collectionName));
 			return querySnapshot.docs.map(doc => ({

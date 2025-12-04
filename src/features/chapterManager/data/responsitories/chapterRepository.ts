@@ -10,7 +10,10 @@ export class ChapterRepository implements IChapterRepository{
 	async createChapter(chapter: ChapterModel): Promise<void> {
 		return await this.remoteDataSource.createChapter(chapter);
 	}
-	// async getChapters(): Promise<ChapterModel[]> {
-	// 	return await this.remoteDataSource.getChapters();
-	// }
+	async getChapters(): Promise<ChapterModel[]> {
+		return await this.remoteDataSource.getChapters();
+	}
+	async updateChapter(chapter: ChapterModel): Promise<void> {
+		return await this.remoteDataSource.updateChapter(chapter);
+	}
 }
