@@ -4,13 +4,15 @@ import type { Chapter } from "../domain/entities/chapter";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 interface TableChapterProps{
 	dataSource: Chapter[];
+	onAction(ActionChapter: string, chapter: Chapter): void;
 }
+export const ActionChapter = {
+  Delete: "Delete",
+  Edit: "Edit",
+};
 export default class TableChapter extends React.Component<TableChapterProps>{
-	deleteChapter = () => {
-
-	}
-	editChapter= () => {
-
+	onActionTable = (ActionChapter: string, item: Chapter) => {
+		this.props.onAction(ActionChapter, item);
 	}
 	render(){
 		let dataSource = this.props.dataSource;
@@ -26,11 +28,11 @@ export default class TableChapter extends React.Component<TableChapterProps>{
 			{
 				title:'Thao tác',
 				width: 150,
-				render: () =>{
+				render: (item: Chapter) =>{
 					return(
 						<div style={{display: 'flex', gap: '8px'}}>
-							<Button danger type="primary" icon={<DeleteOutlined />} onClick={this.deleteChapter}>Xóa</Button>
-							<Button  type="primary" icon={<EditOutlined />} onClick={this.editChapter}>Sửa</Button>
+							<Button danger type="primary" icon={<DeleteOutlined />} onClick={() => this.onActionTable(ActionChapter.Delete, item)}>Xóa</Button>
+							<Button  type="primary" icon={<EditOutlined />} onClick={() => this.onActionTable(ActionChapter.Edit, item)}>Sửa</Button>
 						</div>
 					) 
 				}

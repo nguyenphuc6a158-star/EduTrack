@@ -8,7 +8,7 @@ export class UpdateChapters {
 		this.chapterRepository = chapterRepository
 	}
 
-	updateChapter (chapter: Chapter): Promise<void>{
-		return this.chapterRepository.updateChapter(chapter);
+	updateChapter (id: string ,chapter: Chapter): Promise<void>{
+		return this.chapterRepository.updateChapter(id, chapter);
 	}
 }

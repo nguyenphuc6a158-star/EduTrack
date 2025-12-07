@@ -6,6 +6,11 @@ interface ISideNavBarProps{
 	collapsed: boolean;
 }
 export default class SideNavbar extends React.Component<ISideNavBarProps>{
+	itemsMenu = itemsMenu.map(item => ({
+		key: item.key,
+		icon: item.icon,
+		label: item.label,
+	}));
 	render = () => {
 		return (
 			<Sider 
@@ -34,8 +39,8 @@ export default class SideNavbar extends React.Component<ISideNavBarProps>{
 				<Menu
 					theme="dark"
 					mode="inline"
-					defaultSelectedKeys={['1']}
-					items={itemsMenu}
+					defaultSelectedKeys={['/']}
+					items={this.itemsMenu}
 				/>
 			</Sider>
 		);

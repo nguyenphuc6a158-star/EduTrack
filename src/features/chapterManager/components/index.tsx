@@ -8,6 +8,7 @@ import { CreateChapter } from "../domain/usecases/createChapter";
 import { GetChapters } from "../domain/usecases/getChapters";
 import type { Chapter } from "../domain/entities/chapter";
 import { UpdateChapters } from "../domain/usecases/updateChapter";
+import DeleteChapter from "../domain/usecases/deleteChapter";
 
 export default class SelectChapter extends React.Component{
 	state = {
@@ -17,9 +18,10 @@ export default class SelectChapter extends React.Component{
 	}
 	remote: ChapterRemoteDataSource = new ChapterRemoteDataSource();
 	repo: ChapterRepository = new ChapterRepository(this.remote);
-	create: CreateChapter = new CreateChapter(this.repo);
+	createChapter: CreateChapter = new CreateChapter(this.repo);
 	getChapters: GetChapters = new GetChapters(this.repo);
 	updateChapter: UpdateChapters = new UpdateChapters(this.repo);
+	deleteChapter: DeleteChapter = new DeleteChapter(this.repo);
 	listChapters: Chapter[] = [];
 	componentDidMount  = async () => {
 		await this.getAll();
@@ -75,8 +77,10 @@ export default class SelectChapter extends React.Component{
 					title={'Quản lý chương'}
 				>
 					<ChapterManager
+						deleteChapter={this.deleteChapter}
+						updateChapter={this.updateChapter}
 						listChapters={this.listChapters}
-						createChapter={this.create.createChapter}
+						createChapter={this.createChapter}
 						getAllChapters={this.getAll}
 					/>
 				</Modal>

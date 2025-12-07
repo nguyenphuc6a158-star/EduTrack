@@ -5,8 +5,8 @@ export interface IChapterRemoteDataSource {
 	getChapters(): Promise<ChapterModel[]>;
 	// getChapter(id: string): Promise<ChapterModel>;
 	createChapter(chapter: ChapterModel): Promise<void>;
-	updateChapter(chapter: ChapterModel): Promise<void>;
-	// deleteChapter(chapter: ChapterModel): Promise<void>;
+	updateChapter(id: string, chapter: ChapterModel): Promise<void>;
+	deleteChapter(id: string): Promise<void>;
 }
 
 export class ChapterRemoteDataSource implements IChapterRemoteDataSource{
@@ -30,10 +30,13 @@ export class ChapterRemoteDataSource implements IChapterRemoteDataSource{
 			item.category,
 		));
 	}
-	async updateChapter(chapter: ChapterModel): Promise<void> {
-		await this.firebaseRemoteData.update(chapter.id, {
+	async updateChapter(id: string, chapter: ChapterModel): Promise<void> {
+		await this.firebaseRemoteData.update(id, {
 			name: chapter.name,
 			category: chapter.category
 		});
+	}
+	async deleteChapter(id: string): Promise<void> {
+		await this.firebaseRemoteData.delete(id);
 	}
 }

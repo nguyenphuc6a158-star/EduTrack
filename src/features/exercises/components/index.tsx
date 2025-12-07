@@ -1,11 +1,15 @@
+import { Card, Row } from "antd";
 import React from "react";
+import SelectChapter from "../../chapterManager/components";
 
 export default class Exercises extends React.Component{
 	render(){
 		return(
-			<>
-				ContactPage
-			</>
+			<Card>
+				<Row>
+					<SelectChapter />
+				</Row>
+			</Card>
 		)
 	}
 }

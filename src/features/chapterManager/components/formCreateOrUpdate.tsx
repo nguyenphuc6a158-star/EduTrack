@@ -4,15 +4,30 @@ import type { Chapter } from "../domain/entities/chapter";
 interface IFormCreateOrUpdateChapterProps{
 	onCancel(): void;
 	onSave(data: any): void;
+	chapter?: Chapter;
+	chapterSelected?: Chapter;
 }
 export default class FormCreateOrUpdateChapter extends React.Component<IFormCreateOrUpdateChapterProps>{
+	componentDidUpdate(prevProps: Readonly<IFormCreateOrUpdateChapterProps>): void {
+		if(this.props.chapterSelected !== prevProps.chapterSelected){
+			this.setFormValues(this.props.chapterSelected);
+		}
+	}
 	formRef = React.createRef<any>();
+	setFormValues = (chapter?: Chapter) => {
+		if (chapter == undefined) return;
+
+		this.formRef.current?.setFieldsValue({
+			name: chapter.name,
+			category: chapter.category
+		});
+	};
 	onSave  = async () => {
 		const values = await this.formRef.current.validateFields();
 		let chapter: Chapter = {
 			id: '',
 			name: values.name,
-			category: values.category === 1 ? 'Hình học' : 'Đại số',
+			category: values.category,
 		}
 		this.props.onSave(chapter);
 	}
@@ -29,8 +44,8 @@ export default class FormCreateOrUpdateChapter extends React.Component<IFormCrea
 								style={{ width: "100%" }}
 								placeholder="Chọn loại"
 								options={[
-									{ value: 1, label: 'Hình học' },
-									{ value: 2, label: 'Đại số' },
+									{ value: 'Hình học', label: 'Hình học' },
+									{ value: 'Đại số', label: 'Đại số' },
 								]}
 							/>
 						</Form.Item>

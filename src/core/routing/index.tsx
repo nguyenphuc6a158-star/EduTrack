@@ -1,17 +1,22 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import AppLayout from "../presentation/appLayout"
-import HomePage from "../../features/home/components"
-import Users from "../../features/user/components"
-import Exercises from "../../features/exercises/components"
-
+import itemsMenu from "../presentation/appLayout/navigator/menuItem"
 const Router = () => {
 	return(
 		<BrowserRouter >
 			<Routes>
 				<Route path="/" element={<AppLayout />}>
-					<Route index element={<HomePage />} />
-					<Route path="users" element={<Users />} />
-					<Route path="exercises" element={<Exercises />} />
+					{itemsMenu.map(item => {
+						const isIndex = item.key === '/';
+						return (
+							<Route
+								key={item.key}
+								path={item.key}
+								index={isIndex}
+								element={<item.components />}
+							/>
+						);
+					})}
 				</Route>
 			</Routes>
 		</BrowserRouter>

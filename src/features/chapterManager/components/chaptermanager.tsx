@@ -1,51 +1,65 @@
-import { Button, Card, Col, message, Row } from "antd";
+import { Button, Card, Col, message, Modal, Row } from "antd";
 import React from "react";
 import FormCreateOrUpdateChapter from "./formCreateOrUpdate";
-import TableChapter from "./tableChapter";
+import TableChapter, { ActionChapter } from "./tableChapter";
 import { PlusOutlined } from "@ant-design/icons";
 import type { Chapter } from "../domain/entities/chapter";
+import { UpdateChapters } from "../domain/usecases/updateChapter";
+import { CreateChapter } from "../domain/usecases/createChapter";
+import type DeleteChapter from "../domain/usecases/deleteChapter";
 interface IChapterManagerProps{
-	createChapter: (chapter: Chapter) => Promise<void>;
+	createChapter: CreateChapter;
 	getAllChapters: () => Promise<void>;
 	listChapters: Chapter[];
-	updateChapter: (chapter: Chapter) => Promise<void>;
+	updateChapter: UpdateChapters;
+	deleteChapter:DeleteChapter
 }
 export default class ChapterManager extends React.Component<IChapterManagerProps>{
 	state = {
 		span: 24,
 		isloading: false,
 	};
+	chapterSelected: Chapter | undefined;
 	openForm = () => {
 		this.setState({span: 12});
 	}
 	onCancel = () => {
 		this.setState({span:24})
 	}
-	saveSuccess = () => {
-		message.success("Thêm mới chương thành công")
-	}
-	onSave = async (data: any) =>{
-		let { createChapter, getAllChapters } = this.props;
-		let nameChapter: string = '';
-		let categoryChapter: string = '';
-		if(data != undefined){
-			nameChapter = data.name;
-			if(data.category === 1){
-				categoryChapter = 'Hình học';
-			} else if(data.category === 2){
-				categoryChapter = 'Đại số';
-			}
-			let chapter: Chapter = {
-				id: '',
-				name: nameChapter,
-				category: categoryChapter,
-			}
-			await createChapter(chapter);
-			this.saveSuccess();
+	onSave = async (chapter: Chapter) =>{
+		let { createChapter, getAllChapters, updateChapter } = this.props;
+		if(chapter != undefined){
+			if(this.chapterSelected != undefined){
+				await updateChapter.updateChapter(this.chapterSelected.id,chapter);
+			} else await createChapter.createChapter(chapter);
+			message.success("Lưu chương thành công")
 			this.onCancel();
 			await getAllChapters();
+			} else message.error("Lưu chương thất bại");
+	} 
+	deleteChapter = async (chapterSelected: Chapter) => {
+		if(chapterSelected != undefined){
+			Modal.confirm({
+				title: "Xác nhận xóa chương",
+				content: `Bạn có chắc chắn muốn xóa chương ${chapterSelected.name} không?`,
+				okText: "Xóa",
+				cancelText: "Hủy",
+				onOk: async () => {
+					await this.props.deleteChapter.deleteChapter(chapterSelected.id);
+					message.success("Xóa chương thành công");
+					await this.props.getAllChapters();
+				}
+			});
+		} else message.error("Xóa chương thất bại");
+		this.setState({isLoading: !this.state.isloading});
+	}
+	onAction = (actionChapter: string, chapter: Chapter) => {
+		this.chapterSelected = chapter;
+		if(actionChapter === ActionChapter.Delete){
+			this.deleteChapter(this.chapterSelected);
+		} else if(actionChapter === ActionChapter.Edit){
+			this.openForm();
 		}
-		message.error("Lưu chương thất bại");
 	}
 	render(){
 		return(
@@ -55,10 +69,10 @@ export default class ChapterManager extends React.Component<IChapterManagerProps
 				</Row>
 				<Row gutter={8}>
 					<Col span={this.state.span}>
-						<TableChapter dataSource={this.props.listChapters}/>
+						<TableChapter onAction={this.onAction} dataSource={this.props.listChapters}/>
 					</Col>
 					<Col span={24 - this.state.span}>
-						<FormCreateOrUpdateChapter onSave={this.onSave} onCancel={this.onCancel}/>
+						<FormCreateOrUpdateChapter chapterSelected={this.chapterSelected} onSave={this.onSave} onCancel={this.onCancel}/>
 					</Col>
 				</Row>
 			</Card>
