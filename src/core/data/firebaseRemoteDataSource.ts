@@ -1,4 +1,4 @@
-import { addDoc, collection, getDocs, doc, updateDoc, deleteDoc, getDoc } from "firebase/firestore";
+import { addDoc, collection, getDocs, doc, updateDoc, deleteDoc, getDoc, query, where } from "firebase/firestore";
 import { db } from "../config/firebase";
 
 export default class FirebaseRemoteData {
@@ -13,6 +13,18 @@ export default class FirebaseRemoteData {
 			console.error("Add error:", error);
 			throw error;
 		}
+	}
+	async getAllByLevel(level: number): Promise<any[]> {
+		if (level === undefined || level === null) {
+			console.warn("getAllByLevel: level is undefined");
+			return [];
+		}
+		const q = query(collection(db, this.collectionName),where("level", "==", level));
+		const snapshot = await getDocs(q);
+		return snapshot.docs.map(doc => ({
+			id: doc.id,
+			...doc.data()
+		}));
 	}
 	async getByid(id: string){
 		try{

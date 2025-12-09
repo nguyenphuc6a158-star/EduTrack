@@ -5,10 +5,11 @@ import ChapterManager from "./chaptermanager";
 import { ChapterRemoteDataSource } from "../data/data/chapterRemoteDataSource";
 import { ChapterRepository } from "../data/responsitories/chapterRepository";
 import { CreateChapter } from "../domain/usecases/createChapter";
-import { GetChapters } from "../domain/usecases/getChapters";
 import type { Chapter } from "../domain/entities/chapter";
 import { UpdateChapters } from "../domain/usecases/updateChapter";
 import DeleteChapter from "../domain/usecases/deleteChapter";
+import { GetChaptersByLevel } from "../domain/usecases/getChaptersByLevel";
+import { SelectedLevelContext } from "../../../core/presentation/selectedLevelContext";
 
 export default class SelectChapter extends React.Component{
 	state = {
@@ -16,25 +17,35 @@ export default class SelectChapter extends React.Component{
 		isloading: false,
 		optionsSelect: [] as { value: string; label: string }[],
 	}
-	remote: ChapterRemoteDataSource = new ChapterRemoteDataSource();
-	repo: ChapterRepository = new ChapterRepository(this.remote);
-	createChapter: CreateChapter = new CreateChapter(this.repo);
-	getChapters: GetChapters = new GetChapters(this.repo);
-	updateChapter: UpdateChapters = new UpdateChapters(this.repo);
-	deleteChapter: DeleteChapter = new DeleteChapter(this.repo);
+	static contextType = SelectedLevelContext;
+	declare context: number;
+	remoteChapter: ChapterRemoteDataSource = new ChapterRemoteDataSource();
+	repoChapter: ChapterRepository = new ChapterRepository(this.remoteChapter);
+	createChapter: CreateChapter = new CreateChapter(this.repoChapter);
+	getChapters: GetChaptersByLevel = new GetChaptersByLevel(this.repoChapter);
+	updateChapter: UpdateChapters = new UpdateChapters(this.repoChapter);
+	deleteChapter: DeleteChapter = new DeleteChapter(this.repoChapter);
 	listChapters: Chapter[] = [];
+	componentDidUpdate(): void {
+		console.log(this.context)
+	}
 	componentDidMount  = async () => {
-		await this.getAll();
 		this.setState({isloading: true});
+		console.log(this.context)
+		await this.getAll();
 		const options = this.listChapters.map((chapter) => ({
 			value: chapter.id,
 			label: chapter.name,
 		}));
-		this.setState({ optionsSelect: options });
+		this.setState({ 
+			optionsSelect: options,
+			isloading: false
+		});
 	}
+	
 	getAll = async () => {
 		this.setState({isloading: true});
-		this.listChapters = await this.getChapters.getChapters();
+		this.listChapters = await this.getChapters.getAllByLevel(this.context);
 		this.setState({isloading: false});
 	}
 	handleChange = (value: string) => {

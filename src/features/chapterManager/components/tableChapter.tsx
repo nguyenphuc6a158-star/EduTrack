@@ -9,6 +9,7 @@ interface TableChapterProps{
 export const ActionChapter = {
   Delete: "Delete",
   Edit: "Edit",
+  Create: "Create",
 };
 export default class TableChapter extends React.Component<TableChapterProps>{
 	onActionTable = (ActionChapter: string, item: Chapter) => {
@@ -24,6 +25,10 @@ export default class TableChapter extends React.Component<TableChapterProps>{
 			{
 				title:'Loại',
 				render: (item: Chapter) =>{return <div>{item.category}</div>}
+			},
+			{
+				title:'Khối',
+				render: (item: Chapter) =>{return <div>{item.level}</div>}
 			},
 			{
 				title:'Thao tác',

@@ -1,14 +1,14 @@
 import type { Chapter } from "../entities/chapter";
 import type { IChapterRepository } from "../repositories/iChapterRepository";
 
-export class GetChapters {
+export class GetChaptersByLevel {
 	chapterRepository: IChapterRepository
 
 	constructor(chapterRepository: IChapterRepository){
 		this.chapterRepository = chapterRepository
 	}
 
-	getChapters(): Promise<Chapter[]>{
-		return this.chapterRepository.getChapters();
+	getAllByLevel(level: number): Promise<Chapter[]>{
+		return this.chapterRepository.getAllByLevel(level);
 	}
 }

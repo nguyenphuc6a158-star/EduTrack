@@ -18,7 +18,7 @@ export default class SideNavbar extends React.Component<ISideNavBarProps>{
 				collapsible 
 				collapsed={this.props.collapsed}
 				collapsedWidth={80}
-				width={window.innerWidth * 0.3}
+				width={window.innerWidth * 0.2}
 			>
 				<div style={{
 					display: 'flex',

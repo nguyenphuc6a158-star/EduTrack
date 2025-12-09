@@ -5,11 +5,13 @@ export class ChapterModel implements Chapter{
 	id: string;
 	name: string;
 	category: string;
+	level: number;
 
-	constructor(id: string, name: string, category: string){
+	constructor(id: string, name: string, category: string, level: number){
 		this.id = id;
 		this.name = name;
-		this.category = category
+		this.category = category;
+		this.level = level;
 	}
 	static fromStore(doc: QueryDocumentSnapshot<DocumentData>): ChapterModel {
 		const data = doc.data();
@@ -17,6 +19,7 @@ export class ChapterModel implements Chapter{
 			doc.id,
 			data.name ?? '',
 			data.category ?? '',
+			data.level ?? -1,
 		)
 	}
 	toJson(): Record<string, any> {
@@ -24,6 +27,7 @@ export class ChapterModel implements Chapter{
 			id: this.id,
 			name: this.name,
 			category: this.category,
+			level: this.level,
 		};
 	}
 	static fromEntity(e: Chapter): ChapterModel {
@@ -31,6 +35,7 @@ export class ChapterModel implements Chapter{
 			e.id,
 			e.name,
 			e.category,
+			e.level,
 		);
 	}
 }

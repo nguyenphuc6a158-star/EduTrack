@@ -1,6 +1,5 @@
-export interface Chapter{
+export interface LevelGrade {
 	id: string;
 	name: string;
-	category: string;
 	level: number;
 }

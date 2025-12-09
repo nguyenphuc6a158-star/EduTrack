@@ -2,7 +2,7 @@ import FirebaseRemoteData from "../../../../core/data/firebaseRemoteDataSource";
 import { ChapterModel } from "../models/chapterModel";
 
 export interface IChapterRemoteDataSource {
-	getChapters(): Promise<ChapterModel[]>;
+	getAllByLevel(level: number): Promise<ChapterModel[]>;
 	// getChapter(id: string): Promise<ChapterModel>;
 	createChapter(chapter: ChapterModel): Promise<void>;
 	updateChapter(id: string, chapter: ChapterModel): Promise<void>;
@@ -19,21 +19,24 @@ export class ChapterRemoteDataSource implements IChapterRemoteDataSource{
 	async createChapter(chapter: ChapterModel): Promise<void> {
 		await this.firebaseRemoteData.add({	
 			name: chapter.name,
-			category: chapter.category
+			category: chapter.category,
+			level: chapter.level
 		});
 	}
-	async getChapters(): Promise<ChapterModel[]> {
-		const data = await this.firebaseRemoteData.getAlls();
+	async getAllByLevel(level: number): Promise<ChapterModel[]> {
+		const data = await this.firebaseRemoteData.getAllByLevel(level);
 		return data.map((item)=> new ChapterModel(
 			item.id,
 			item.name,
 			item.category,
+			item.level,
 		));
 	}
 	async updateChapter(id: string, chapter: ChapterModel): Promise<void> {
 		await this.firebaseRemoteData.update(id, {
 			name: chapter.name,
-			category: chapter.category
+			category: chapter.category,
+			level: chapter.level,
 		});
 	}
 	async deleteChapter(id: string): Promise<void> {
